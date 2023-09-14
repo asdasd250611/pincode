@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KNOW CITY NAME FROM PINCODE & PINCODE CHECKER</title>
-      <meta name="description" content="made by saurav">
+    <meta name="description" content="made by saurav">
     <style>
         * {
             margin: 0;
@@ -203,7 +203,8 @@
                     document.querySelector('.msg').classList.add("norecodesfound");
 
                 } else {
-                    document.querySelector('.msg').textContent = "Records Found";
+                    document.querySelector('h1').textContent += ` ${pin}`;
+                    document.querySelector('.msg').textContent = `Records Found `;
                     document.querySelector('.msg').classList.add("recodesfound");
                     document.querySelector('.table').style.display='table';
 
@@ -218,6 +219,7 @@
                 }
             })
 
+document.querySelector('#pincode').value= '';
         })
 
 
