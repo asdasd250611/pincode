@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KNOW CITY NAME FROM PINCODE & PINCODE CHECKER</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            margin: 15px;
+            font-size: 40px;
+            color: blue;
+            text-align: center;
+        }
+
+        .recodesfound {
+            padding: 15px;
+            background-color: rgb(181, 245, 181);
+            color: green;
+            border-left: 5px solid green;
+            font-size: 16px;
+        }
+
+        .norecodesfound {
+            padding: 15px;
+            background-color: rgb(255, 166, 160);
+            color:  rgb(241, 17, 17);
+            border-left: 5px solid rgb(241, 17, 17);
+            font-size: 16px;
+            
+        }
+
+        #pincode {
+            width: 450px;
+            height: 25px;
+            padding: 25px;
+            border-radius: 5px;
+            /* outline: none; */
+            font-size: 25px;
+            margin: 10px auto;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+        }
+
+        /* form {
+            width: 500px;
+            margin: auto;
+            border: 1px solid black;
+            padding: 15px;
+
+        } */
+        input[type=submit] {
+            letter-spacing: 2px;
+            word-spacing: 2px;
+            font-weight: 800;
+            color: #fff;
+            font-size: 25px;
+            width: 450px;
+            padding: 25px;
+            margin: 20px auto;
+            border-radius: 5px;
+            background-color: rgb(148, 148, 232);
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+        }
+
+        input[type=submit]:hover {
+
+            background-color: rgb(96, 96, 231);
+
+        }
+
+        .box {
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+            border-radius: 15px;
+            padding: 25px;
+            width: 500px;
+            height: auto;
+            margin: 10px auto;
+
+
+        }
+
+        table {
+
+            width: 100%;
+            border: 1px solid black;
+            border-radius: 15px;
+            border-collapse: collapse;
+        }
+
+        th {
+            border: 1px solid black;
+            padding: 15px;
+            background-color: rgb(148, 148, 232);
+            color: #fff;
+            font-size: 25px;
+            font-weight: 800;
+           
+        }
+
+
+        .table {
+            width: 80%;
+            display: none;
+            border-radius: 5px;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+            height: auto;
+            margin: 10px auto;
+            text-align: center;
+            font-size: 15px;
+           
+
+
+
+        }
+
+        /* td{
+            border: 1px solid black;
+        } */
+        tr {
+
+            border: 1px solid black;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgb(208, 208, 245);
+        }
+
+        td {
+            font-size: 15px;
+            padding: 15px;
+            border: 1px solid black;
+
+        }
+        
+
+    </style>
+
+</head>
+
+<body>
+    <div class="box">
+        <h1>Pincode</h1>
+
+        <form action="" id="pincodevalue">
+            <label for="pincode"></label>
+            <input type="number" name="pin" id="pincode" pattern="0-9{6}" placeholder="Enter Pincode">
+            <div class="msg"></div>
+            <input type="submit" value="Search Pincode">
+        </form>
+    </div>
+    <div class="table">
+        <table>
+            <thead>
+                <th>Sr</th>
+                <th>City Name</th>
+                <th>Region</th>
+                <th>District</th>
+                <th>Delivery</th>
+            </thead>
+            <tbody>
+          
+                
+            </tbody>
+        </table>
+        
+    </div>
+
+
+
+
+
+    <script>
+
+
+        function removedata() {
+            document.querySelector('.msg').classList.remove("recodesfound");
+            document.querySelector('.msg').classList.remove("norecodesfound");
+            document.querySelector('.msg').textContent = ` `;
+
+        }
+
+        document.querySelector('#pincodevalue').addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            removedata()
+
+            var pin = document.querySelector('#pincode').value;
+            var url = `https://api.postalpincode.in/pincode/${pin}`;
+
+            fetch(url).then(i => i.json()).then(i => {
+                console.log(i);
+                if (i[0].Status == 'Error') {
+                    document.querySelector('.msg').textContent = ` Invalid ${pin} Pincode`;
+                    document.querySelector('.msg').classList.add("norecodesfound");
+
+                } else {
+                    document.querySelector('.msg').textContent = "Records Found";
+                    document.querySelector('.msg').classList.add("recodesfound");
+                    document.querySelector('.table').style.display='table';
+
+
+                    var pincodedata = i[0].PostOffice;
+                    pincodedata.forEach((a, b) => {
+                        document.querySelector(".table tbody").innerHTML+=`<tr><td>${b+1}</td><td>${a.Name}</td><td>${a.Region}</td><td>${a.District}</td><td>${a.DeliveryStatus}</td></tr>`;
+
+                    });
+
+
+                }
+            })
+
+        })
+
+
+
+    </script>
+
+</body>
+
+</html>
