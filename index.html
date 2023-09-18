@@ -148,11 +148,12 @@
 
 <body>
     <div class="box">
-        <h1>Pincode</h1>
+        <h1>Pincode <span></span></h1>
 
         <form action="" id="pincodevalue">
-            <label for="pincode"></label>
-            <input type="number" name="pin" id="pincode" pattern="0-9{6}" placeholder="Enter Pincode">
+            
+            <input type="number" name="pin" id="pincode" pattern="[0-9]{6}" placeholder="Enter Pincode">
+            
             <div class="msg"></div>
             <input type="submit" value="Search Pincode">
         </form>
@@ -180,17 +181,19 @@
 
     <script>
 
-
         function removedata() {
             document.querySelector('.msg').classList.remove("recodesfound");
             document.querySelector('.msg').classList.remove("norecodesfound");
             document.querySelector('.msg').textContent = ` `;
+            document.querySelector('.table tbody').innerHTML = "";
+            document.querySelector('span').textContent = ``;
+
 
         }
-
+       
         document.querySelector('#pincodevalue').addEventListener("submit", function (e) {
             e.preventDefault();
-
+           
             removedata()
 
             var pin = document.querySelector('#pincode').value;
@@ -203,8 +206,8 @@
                     document.querySelector('.msg').classList.add("norecodesfound");
 
                 } else {
-                    document.querySelector('h1').textContent += ` ${pin}`;
-                    document.querySelector('.msg').textContent = `Records Found `;
+                    document.querySelector('span').textContent += ` ${pin}`;
+                    document.querySelector('.msg').textContent = `Records Found ${pin} `;
                     document.querySelector('.msg').classList.add("recodesfound");
                     document.querySelector('.table').style.display='table';
 
@@ -218,10 +221,12 @@
 
                 }
             })
-
+            
+           
 document.querySelector('#pincode').value= '';
-        })
 
+        })
+      
 
 
     </script>
