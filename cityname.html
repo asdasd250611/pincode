@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KNOW CITY NAME FROM PINCODE & PINCODE CHECKER</title>
     <meta name="description" content="made by saurav">
-    
     <style>
         * {
             margin: 0;
@@ -32,13 +31,13 @@
         .norecodesfound {
             padding: 15px;
             background-color: rgb(255, 166, 160);
-            color:  rgb(241, 17, 17);
+            color: rgb(241, 17, 17);
             border-left: 5px solid rgb(241, 17, 17);
             font-size: 16px;
-            
+
         }
 
-        #pincode {
+        #cityname {
             width: 450px;
             height: 25px;
             padding: 25px;
@@ -104,7 +103,7 @@
             color: #fff;
             font-size: 25px;
             font-weight: 800;
-           
+
         }
 
 
@@ -117,7 +116,7 @@
             margin: 10px auto;
             text-align: center;
             font-size: 15px;
-           
+
 
 
 
@@ -149,22 +148,21 @@
         a{
             text-decoration: none;
         }
-
     </style>
 
 </head>
 
 <body>
     <div class="box">
-        <h1>Pincode <span></span></h1>
+        <h1>City Name<span></span></h1>
 
-        <form action="" id="pincodevalue">
-            
-            <input type="number" name="pin" id="pincode" pattern="[0-9]{6}" placeholder="Enter Pincode">
-            
+        <form action="" id="citynamevalue">
+
+            <input type="text" name="pin" id="cityname" placeholder="Enter City Name">
+
             <div class="msg"></div>
-            <input type="submit" value="Search Pincode">
-            <h2><a href="cityname.html">Search Using City Name</a></h2>
+            <input type="submit" value="Search City Name">
+            <h2><a href="index.html">Search Using Pincode</a></h2>
         </form>
     </div>
     <div class="table">
@@ -172,16 +170,16 @@
             <thead>
                 <th>Sr</th>
                 <th>City Name</th>
-                <th>Region</th>
+                <th>Pincode</th>
                 <th>District</th>
                 <th>Delivery</th>
             </thead>
             <tbody>
-          
-                
+
+
             </tbody>
         </table>
-        
+
     </div>
 
 
@@ -199,43 +197,45 @@
 
 
         }
-       
-        document.querySelector('#pincodevalue').addEventListener("submit", function (e) {
+        // https://api.postalpincode.in/postoffice/New Delhi
+
+        document.querySelector('#citynamevalue').addEventListener("submit", function (e) {
             e.preventDefault();
-           
+
             removedata()
 
-            var pin = document.querySelector('#pincode').value;
-            var url = `https://api.postalpincode.in/pincode/${pin}`;
+            var cityname = document.querySelector('#cityname').value;
+            var url = `https://api.postalpincode.in/postoffice/${cityname}`;
+            if (cityname != "") {
+// console.table(pin);
+                fetch(url).then(i => i.json()).then(i => {
+                    console.log(i);
+                    if (i[0].Status == 'Error') {
+                        document.querySelector('.msg').textContent = ` Invalid ${cityname} city`;
+                        document.querySelector('.msg').classList.add("norecodesfound");
 
-            fetch(url).then(i => i.json()).then(i => {
-                console.log(i);
-                if (i[0].Status == 'Error') {
-                    document.querySelector('.msg').textContent = ` Invalid ${pin} Pincode`;
-                    document.querySelector('.msg').classList.add("norecodesfound");
-
-                } else {
-                    document.querySelector('span').textContent += ` ${pin}`;
-                    document.querySelector('.msg').textContent = `Records Found ${pin} `;
-                    document.querySelector('.msg').classList.add("recodesfound");
-                    document.querySelector('.table').style.display='table';
-
-
-                    var pincodedata = i[0].PostOffice;
-                    pincodedata.forEach((a, b) => {
-                        document.querySelector(".table tbody").innerHTML+=`<tr><td>${b+1}</td><td>${a.Name}</td><td>${a.Region}</td><td>${a.District}</td><td>${a.DeliveryStatus}</td></tr>`;
-
-                    });
+                    } else {
+                        document.querySelector('span').textContent += ` ${cityname}`;
+                        document.querySelector('.msg').textContent = `Records Found ${cityname} `;
+                        document.querySelector('.msg').classList.add("recodesfound");
+                        document.querySelector('.table').style.display = 'table';
 
 
-                }
+                        var pincodedata = i[0].PostOffice;
+                        pincodedata.forEach((a, b) => {
+                            document.querySelector(".table tbody").innerHTML += `<tr><td>${b + 1}</td><td>${a.Name}</td><td>${a.Pincode}</td><td>${a.District}</td><td>${a.DeliveryStatus}</td></tr>`;
+
+                        });
+
+
+                    }
+                })
+            }
+
+                document.querySelector('#pincode').value = '';
+
             })
-            
-           
-document.querySelector('#pincode').value= '';
 
-        })
-      
 
 
     </script>
