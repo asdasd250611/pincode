@@ -67,14 +67,14 @@
             padding: 25px;
             margin: 20px auto;
             border-radius: 5px;
-            background-color: rgb(148, 148, 232);
+            background-color: rgb(104, 104, 254);
             box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 
         }
 
         input[type=submit]:hover {
 
-            background-color: rgb(96, 96, 231);
+            background-color: rgb(31, 31, 203);
 
         }
 
@@ -158,9 +158,9 @@
     <div class="box">
         <h1>Pincode <span></span></h1>
 
-        <form action="" id="pincodevalue">
+        <form action="#" id="pincodevalue">
             
-            <input type="number" name="pin" id="pincode" pattern="[0-9]{6}" placeholder="Enter Pincode">
+            <input type="tel" name="pin" id="pincode" pattern="[0-9]{6}" placeholder="Enter Pincode">
             
             <div class="msg"></div>
             <input type="submit" value="Search Pincode">
@@ -170,11 +170,13 @@
     <div class="table">
         <table>
             <thead>
+                <tr>
                 <th>Sr</th>
                 <th>City Name</th>
                 <th>Region</th>
                 <th>District</th>
                 <th>Delivery</th>
+            </tr>
             </thead>
             <tbody>
           
@@ -206,6 +208,7 @@
             removedata()
 
             var pin = document.querySelector('#pincode').value;
+            if(pin != ""){
             var url = `https://api.postalpincode.in/pincode/${pin}`;
 
             fetch(url).then(i => i.json()).then(i => {
@@ -230,7 +233,7 @@
 
                 }
             })
-            
+        } 
            
 document.querySelector('#pincode').value= '';
 
